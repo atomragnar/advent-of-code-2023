@@ -1,7 +1,18 @@
 package main
 
-import "github.com/atomragnar/advent-of-code-2023/day/one"
+import (
+	"fmt"
+	"github.com/atomragnar/advent-of-code-2023/day/one"
+)
+
+type adventFunc func(bool)
+
+var adventFuncs = map[int]adventFunc{
+	1: one.Solution,
+}
 
 func main() {
-	one.Solution()
+	adventFuncs[1](false)
+	fmt.Print("\n")
+	adventFuncs[1](true)
 }

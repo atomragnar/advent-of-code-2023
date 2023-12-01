@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-type bufferProcessor func(*bufio.Reader) error
+type BufferProcessor func(*bufio.Reader) error
 
 func processInputPath(inputPath string) (string, error) {
 
@@ -38,7 +38,7 @@ func processInputFile(inputPath string) (*os.File, error) {
 	return inputFile, nil
 }
 
-func ProcessInput(inputPath string, fn bufferProcessor) error {
+func ProcessInput(inputPath string, fn BufferProcessor) error {
 
 	inputFile, err := processInputFile(inputPath)
 
