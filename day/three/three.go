@@ -140,8 +140,6 @@ func partTwo(reader *bufio.Reader) error {
 		}
 
 		l = string(chunk)
-
-		fmt.Println(l)
 		for i := 0; i < len(l); i++ {
 
 			if l[i] != '*' && !util.IsDigit(l[i]) {

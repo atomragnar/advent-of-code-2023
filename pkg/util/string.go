@@ -34,3 +34,11 @@ func ContainsNum(s string) int64 {
 func IsDigit(s uint8) bool {
 	return s >= '0' && s <= '9'
 }
+
+func ByteSplit(b []byte, sep string) []string {
+	return strings.Split(strings.TrimSpace(string(b)), sep)
+}
+
+func Split(s, sep string) []string {
+	return strings.Split(strings.TrimSpace(s), sep)
+}
