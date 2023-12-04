@@ -1,3 +1,6 @@
 numbers.txt
 data/**
 data
+.idea/
+.idea
+.idea/**
