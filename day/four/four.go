@@ -48,7 +48,7 @@ func partTwo(reader *bufio.Reader) error {
 		}
 
 		numbers := util.ByteSplit(chunk, ":")[1]
-		ticketsNums := getTicketNumsSlice(numbers)
+		tickets := getTicketNums(numbers)
 		numbers = strings.TrimSpace(util.Split(numbers, "|")[1])
 		wins = 0
 
@@ -65,14 +65,12 @@ func partTwo(reader *bufio.Reader) error {
 				for {
 					if i == len(numbers) || !util.IsDigit(numbers[i]) {
 						if num, err := strconv.ParseInt(numbers[start:i], 10, 64); err == nil {
-							for _, n := range ticketsNums {
-								if num == n {
-									wins++
-									if _, ok := cardCopies[nLine+wins]; !ok {
-										cardCopies[nLine+wins] = 1 + cardCopies[nLine]
-									} else {
-										cardCopies[nLine+wins] = cardCopies[nLine+wins] + cardCopies[nLine]
-									}
+							if tickets.Contains(int8(num)) {
+								wins++
+								if _, ok := cardCopies[nLine+wins]; !ok {
+									cardCopies[nLine+wins] = 1 + cardCopies[nLine]
+								} else {
+									cardCopies[nLine+wins] = cardCopies[nLine+wins] + cardCopies[nLine]
 								}
 							}
 						} else {
@@ -90,6 +88,8 @@ func partTwo(reader *bufio.Reader) error {
 
 		result += cardCopies[nLine]
 
+		delete(cardCopies, nLine)
+
 		fmt.Printf("Last lines result: %d\n", lastRes)
 		fmt.Printf("This lines result: %d\n", result-lastRes)
 		fmt.Printf("Total result: %d\n", result)
@@ -104,38 +104,6 @@ func partTwo(reader *bufio.Reader) error {
 
 	fmt.Printf("Results is: %d", result)
 	return nil
-}
-
-func getTicketNumsSlice(s string) []int64 {
-	numString := strings.TrimSpace(util.Split(s, "|")[0])
-	slice := make([]int64, 0)
-	var start int
-	i := 0
-	for {
-
-		if i >= len(numString) {
-			break
-		}
-
-		if util.IsDigit(numString[i]) {
-			start = i
-			for {
-				if i == len(numString) || !util.IsDigit(numString[i]) {
-					if num, err := strconv.ParseInt(numString[start:i], 10, 64); err == nil {
-						slice = append(slice, num)
-					} else {
-						slog.Error("Error reading file", "error", err)
-					}
-					break
-				}
-				i++
-			}
-		}
-
-		i++
-
-	}
-	return slice
 }
 
 func getTicketNums(s string) *util.Set[int8] {
