@@ -17,5 +17,5 @@ var adventFuncs = map[int]adventFunc{
 }
 
 func main() {
-	adventFuncs[4](true)
+	adventFuncs[4](false)
 }

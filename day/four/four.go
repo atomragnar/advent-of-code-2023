@@ -6,7 +6,6 @@ import (
 	"github.com/atomragnar/advent-of-code-2023/pkg/util"
 	"io"
 	"log/slog"
-	"strconv"
 	"strings"
 )
 
@@ -49,42 +48,18 @@ func partTwo(reader *bufio.Reader) error {
 
 		numbers := util.ByteSplit(chunk, ":")[1]
 		tickets := getTicketNums(numbers)
-		numbers = strings.TrimSpace(util.Split(numbers, "|")[1])
 		wins = 0
 
-		var start int
-		i := 0
-		for {
-
-			if i >= len(numbers) {
-				break
-			}
-
-			if util.IsDigit(numbers[i]) {
-				start = i
-				for {
-					if i == len(numbers) || !util.IsDigit(numbers[i]) {
-						if num, err := strconv.ParseInt(numbers[start:i], 10, 64); err == nil {
-							if tickets.Contains(int8(num)) {
-								wins++
-								if _, ok := cardCopies[nLine+wins]; !ok {
-									cardCopies[nLine+wins] = 1 + cardCopies[nLine]
-								} else {
-									cardCopies[nLine+wins] = cardCopies[nLine+wins] + cardCopies[nLine]
-								}
-							}
-						} else {
-							slog.Error("Error reading file", "error", err)
-						}
-						break
-					}
-					i++
+		util.NumIter[int64](numbers, formatDrawnNumString, util.NumConversion64, func(n int64) {
+			if tickets.Contains(int8(n)) {
+				wins++
+				if _, ok := cardCopies[nLine+wins]; !ok {
+					cardCopies[nLine+wins] = 1 + cardCopies[nLine]
+				} else {
+					cardCopies[nLine+wins] = cardCopies[nLine+wins] + cardCopies[nLine]
 				}
 			}
-
-			i++
-
-		}
+		})
 
 		result += cardCopies[nLine]
 
@@ -106,43 +81,25 @@ func partTwo(reader *bufio.Reader) error {
 	return nil
 }
 
+func formatTicketNumString(s string) string {
+	return strings.TrimSpace(util.Split(s, "|")[0])
+}
+
+func formatDrawnNumString(s string) string {
+	return strings.TrimSpace(util.Split(s, "|")[1])
+}
+
 func getTicketNums(s string) *util.Set[int8] {
-	numString := strings.TrimSpace(util.Split(s, "|")[0])
 	set := util.NewSet[int8]()
-	var start int
-	i := 0
-	for {
-
-		if i >= len(numString) {
-			break
-		}
-
-		if util.IsDigit(numString[i]) {
-			start = i
-			for {
-				if i == len(numString) || !util.IsDigit(numString[i]) {
-					if num, err := strconv.ParseInt(numString[start:i], 10, 8); err == nil {
-						set.Add(int8(num))
-					} else {
-						slog.Error("Error reading file", "error", err)
-					}
-					break
-				}
-				i++
-			}
-		}
-
-		i++
-
-	}
+	util.NumIter[int8](s, formatTicketNumString, util.NumConversion8, func(n int8) {
+		set.Add(n)
+	})
 	return set
 }
 
 func partOne(reader *bufio.Reader) error {
 	var result int64
 	result = 0
-	var start int
-	var i int
 	var lineRes int
 	var lastRes int64
 	nLine := 1
@@ -162,40 +119,18 @@ func partOne(reader *bufio.Reader) error {
 		numbers := util.ByteSplit(chunk, ":")[1]
 		tickets := getTicketNums(numbers)
 
-		numbers = strings.TrimSpace(util.Split(numbers, "|")[1])
 		lineRes = 0
-		i = 0
 
-		for {
-
-			if i >= len(numbers) {
-				break
-			}
-
-			if util.IsDigit(numbers[i]) {
-				start = i
-				for {
-					if i == len(numbers) || !util.IsDigit(numbers[i]) {
-						if num, err := strconv.ParseInt(numbers[start:i], 10, 8); err == nil {
-							if tickets.Contains(int8(num)) {
-								if lineRes == 0 {
-									lineRes = 1
-								} else {
-									lineRes += lineRes
-								}
-							}
-						} else {
-							slog.Error("Error reading file", "error", err)
-						}
-						break
-					}
-					i++
+		util.NumIter[int](numbers, formatDrawnNumString, util.IntConversion, func(n int) {
+			if tickets.Contains(int8(n)) {
+				if lineRes == 0 {
+					lineRes = 1
+				} else {
+					lineRes += lineRes
 				}
 			}
 
-			i++
-
-		}
+		})
 
 		if err == io.EOF {
 			break

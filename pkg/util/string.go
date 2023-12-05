@@ -1,6 +1,8 @@
 package util
 
 import (
+	"log"
+	"strconv"
 	"strings"
 )
 
@@ -41,4 +43,57 @@ func ByteSplit(b []byte, sep string) []string {
 
 func Split(s, sep string) []string {
 	return strings.Split(strings.TrimSpace(s), sep)
+}
+
+type Num interface {
+	~int | ~int8 | ~int16 | ~int32 | ~int64
+}
+
+// NumIter is a generic function with a type parameter T constrained by Num.
+func NumIter[T Num](s string, stringToNums func(s string) string, stringToT func(s string) (T, error), action func(n T)) {
+	s = stringToNums(s)
+	var start int
+	i := 0
+	for {
+		if i >= len(s) {
+			break
+		}
+
+		if IsDigit(s[i]) {
+			start = i
+			for {
+				if i == len(s) || !IsDigit(s[i]) {
+					numStr := s[start:i]
+					if num, err := stringToT(numStr); err == nil {
+						action(num)
+					} else {
+						log.Println("Error converting number:", err)
+					}
+					break
+				}
+				i++
+			}
+		}
+		i++
+	}
+}
+
+func NumConversion8(s string) (int8, error) {
+	if num, err := strconv.ParseInt(s, 10, 8); err == nil {
+		return int8(num), nil
+	} else {
+		return 0, err
+	}
+}
+
+func NumConversion64(s string) (int64, error) {
+	if num, err := strconv.ParseInt(s, 10, 8); err == nil {
+		return num, nil
+	} else {
+		return 0, err
+	}
+}
+
+func IntConversion(s string) (int, error) {
+	return strconv.Atoi(s)
 }
