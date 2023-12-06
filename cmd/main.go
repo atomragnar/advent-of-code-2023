@@ -32,7 +32,6 @@ func main() {
 	//	addDay(2)
 	//}
 	adventFuncs[6](true)
-	six.Run()
 }
 
 const templateString = `package {{.PackageName}}
