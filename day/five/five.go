@@ -139,10 +139,10 @@ func partTwo(reader *bufio.Reader) error {
 		w := getValue(m["water"]["light"], l)
 		f := getValue(m["fertilizer"]["water"], w)
 		soil := getValue(m["soil"]["fertilizer"], f)
-		nseed := getValue(m["seed"]["soil"], soil)
+		s := getValue(m["seed"]["soil"], soil)
 
 		for _, seed := range seeds {
-			if nseed >= seed.dst && nseed < seed.r+seed.dst {
+			if s >= seed.dst && s < seed.r+seed.dst {
 				fmt.Println(loc)
 				return nil
 			}

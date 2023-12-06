@@ -103,3 +103,14 @@ func NumConversion64(s string) (int64, error) {
 func IntConversion(s string) (int, error) {
 	return strconv.Atoi(s)
 }
+
+func StringToInts(s string) []int {
+	ints := make([]int, 0)
+	stringf := func(z string) string {
+		return z
+	}
+	NumIter[int](s, stringf, IntConversion, func(n int) {
+		ints = append(ints, n)
+	})
+	return ints
+}

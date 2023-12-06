@@ -8,39 +8,16 @@ import (
 
 type BufferProcessor func(*bufio.Reader) error
 
-func processInputPath(inputPath string) (string, error) {
-
+func ProcessInput(inputPath string, fn BufferProcessor) error {
 	ip, err := filepath.Abs(inputPath)
 
 	if err != nil {
-		return "", err
-	}
-
-	return ip, nil
-
-}
-
-func processInputFile(inputPath string) (*os.File, error) {
-	ip, err := processInputPath(inputPath)
-
-	if err != nil {
-		return nil, err
+		return err
 	}
 
 	inputPath = ip
 
 	inputFile, err := os.Open(inputPath)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return inputFile, nil
-}
-
-func ProcessInput(inputPath string, fn BufferProcessor) error {
-
-	inputFile, err := processInputFile(inputPath)
 
 	if err != nil {
 		return err

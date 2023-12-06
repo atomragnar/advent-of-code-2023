@@ -5,6 +5,7 @@ import (
 	"github.com/atomragnar/advent-of-code-2023/day/five"
 	"github.com/atomragnar/advent-of-code-2023/day/four"
 	"github.com/atomragnar/advent-of-code-2023/day/one"
+	"github.com/atomragnar/advent-of-code-2023/day/six"
 	"github.com/atomragnar/advent-of-code-2023/day/three"
 	"github.com/atomragnar/advent-of-code-2023/day/two"
 	"os"
@@ -22,14 +23,16 @@ var adventFuncs = map[int]adventFunc{
 	3: three.Solution,
 	4: four.Solution,
 	5: five.Solution,
+	6: six.Solution,
 }
 
 func main() {
-	newDay := false
-	if newDay {
-		addDay(2)
-	}
-	adventFuncs[5](true)
+	//newDay := false
+	//if newDay {
+	//	addDay(2)
+	//}
+	adventFuncs[6](true)
+	six.Run()
 }
 
 const templateString = `package {{.PackageName}}
