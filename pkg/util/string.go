@@ -45,6 +45,12 @@ func Split(s, sep string) []string {
 	return strings.Split(strings.TrimSpace(s), sep)
 }
 
+func StrSplitIter(s string, sep string, action func(string)) {
+	for _, str := range strings.Split(s, sep) {
+		action(str)
+	}
+}
+
 type Num interface {
 	~int | ~int8 | ~int16 | ~int32 | ~int64
 }
