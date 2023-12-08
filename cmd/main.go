@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/atomragnar/advent-of-code-2023/day/eight"
 	"github.com/atomragnar/advent-of-code-2023/day/five"
 	"github.com/atomragnar/advent-of-code-2023/day/four"
 	"github.com/atomragnar/advent-of-code-2023/day/one"
+	"github.com/atomragnar/advent-of-code-2023/day/seven"
 	"github.com/atomragnar/advent-of-code-2023/day/six"
 	"github.com/atomragnar/advent-of-code-2023/day/three"
 	"github.com/atomragnar/advent-of-code-2023/day/two"
@@ -24,14 +26,17 @@ var adventFuncs = map[int]adventFunc{
 	4: four.Solution,
 	5: five.Solution,
 	6: six.Solution,
+	7: seven.Solution,
+	8: eight.Solution,
 }
 
 func main() {
-	//newDay := false
+	//newDay := true
 	//if newDay {
-	//	addDay(2)
+	//	addDay(1)
 	//}
-	adventFuncs[6](true)
+	adventFuncs[8](true)
+
 }
 
 const templateString = `package {{.PackageName}}
