@@ -27,10 +27,9 @@ func Solution(isPartTwo bool) {
 }
 
 type Node struct {
-	str     string
-	left    *Node
-	right   *Node
-	visited bool
+	str   string
+	left  *Node
+	right *Node
 }
 
 func NewNode(s string) *Node {
