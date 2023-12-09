@@ -63,7 +63,7 @@ func partOne(input func() ([]byte, error)) error {
 	sArr := util.SplitData(data)
 
 	for _, s := range sArr {
-		nums = util.StringToInts(string(s))
+		nums = util.StringToInts(s)
 		fmt.Println(nums)
 		l, f := extrapolate(nums)
 		result1 = result1 + l
