@@ -3,7 +3,7 @@ package day
 import (
 	"bufio"
 	"fmt"
-	"github.com/atomragnar/advent-of-code-2023/pkg/util"
+	"github.com/atomragnar/advent-of-code-2023/day/util"
 	"io"
 	"log/slog"
 )

@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"github.com/atomragnar/advent-of-code-2023/pkg/util"
+	"github.com/atomragnar/advent-of-code-2023/day/util"
 	"io"
 	"log"
 	"log/slog"

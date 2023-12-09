@@ -2,6 +2,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/atomragnar/advent-of-code-2023/day/nine"
+	"os"
+	"path/filepath"
+	"strings"
+	"text/template"
+	"time"
+
 	"github.com/atomragnar/advent-of-code-2023/day/eight"
 	"github.com/atomragnar/advent-of-code-2023/day/five"
 	"github.com/atomragnar/advent-of-code-2023/day/four"
@@ -10,11 +17,6 @@ import (
 	"github.com/atomragnar/advent-of-code-2023/day/six"
 	"github.com/atomragnar/advent-of-code-2023/day/three"
 	"github.com/atomragnar/advent-of-code-2023/day/two"
-	"os"
-	"path/filepath"
-	"strings"
-	"text/template"
-	"time"
 )
 
 type adventFunc func(bool)
@@ -28,23 +30,23 @@ var adventFuncs = map[int]adventFunc{
 	6: six.Solution,
 	7: seven.Solution,
 	8: eight.Solution,
+	9: nine.Solution,
 }
 
 func main() {
 	//newDay := true
 	//if newDay {
-	//	addDay(1)
+	//	addDay(2)
 	//}
-	adventFuncs[8](true)
-
+	adventFuncs[9](false)
 }
 
 const templateString = `package {{.PackageName}}
 
 import (
 	"bufio"
-	"fmt"
-	"github.com/atomragnar/advent-of-code-2023/pkg/util"
+	"fmt" 
+  "github.com/atomragnar/advent-of-code-2023/pkg/util"
 	"io"
 	"log/slog"
 )
@@ -68,7 +70,6 @@ func partTwo(reader *bufio.Reader) error {
 	result = 0
 
 	for {
-
 		chunk, err := reader.ReadBytes('\n')
 		if err != nil && err != io.EOF {
 
@@ -180,7 +181,7 @@ type TemplateData struct {
 }
 
 func addDay(ver int) {
-	//dayName := time.Now().Format("Monday")
+	// dayName := time.Now().Format("Monday")
 	dayNumber := time.Now().Day()
 	dayName := numberToText(dayNumber)
 
@@ -213,7 +214,6 @@ func addDay(ver int) {
 	defer func(file *os.File) {
 		err := file.Close()
 		if err != nil {
-
 		}
 	}(file)
 

@@ -3,7 +3,7 @@ package four
 import (
 	"bufio"
 	"fmt"
-	"github.com/atomragnar/advent-of-code-2023/pkg/util"
+	util2 "github.com/atomragnar/advent-of-code-2023/day/util"
 	"io"
 	"log/slog"
 	"strings"
@@ -11,13 +11,13 @@ import (
 
 func Solution(isPartTwo bool) {
 	day := 4
-	var fn util.BufferProcessor
+	var fn util2.BufferProcessor
 	if isPartTwo {
 		fn = partTwo
 	} else {
 		fn = partOne
 	}
-	err := util.ProcessInput(util.DataPath(day), fn)
+	err := util2.ProcessInput(util2.DataPath(day), fn)
 	if err != nil {
 		return
 	}
@@ -46,11 +46,11 @@ func partTwo(reader *bufio.Reader) error {
 			cardCopies[nLine] = 1
 		}
 
-		numbers := util.ByteSplit(chunk, ":")[1]
+		numbers := util2.ByteSplit(chunk, ":")[1]
 		tickets := getTicketNums(numbers)
 		wins = 0
 
-		util.NumIter[int64](numbers, formatDrawnNumString, util.NumConversion64, func(n int64) {
+		util2.NumIter[int64](numbers, formatDrawnNumString, util2.NumConversion64, func(n int64) {
 			if tickets.Contains(int8(n)) {
 				wins++
 				if _, ok := cardCopies[nLine+wins]; !ok {
@@ -82,16 +82,16 @@ func partTwo(reader *bufio.Reader) error {
 }
 
 func formatTicketNumString(s string) string {
-	return strings.TrimSpace(util.Split(s, "|")[0])
+	return strings.TrimSpace(util2.Split(s, "|")[0])
 }
 
 func formatDrawnNumString(s string) string {
-	return strings.TrimSpace(util.Split(s, "|")[1])
+	return strings.TrimSpace(util2.Split(s, "|")[1])
 }
 
-func getTicketNums(s string) *util.Set[int8] {
-	set := util.NewSet[int8]()
-	util.NumIter[int8](s, formatTicketNumString, util.NumConversion8, func(n int8) {
+func getTicketNums(s string) *util2.Set[int8] {
+	set := util2.NewSet[int8]()
+	util2.NumIter[int8](s, formatTicketNumString, util2.NumConversion8, func(n int8) {
 		set.Add(n)
 	})
 	return set
@@ -116,12 +116,12 @@ func partOne(reader *bufio.Reader) error {
 
 		}
 
-		numbers := util.ByteSplit(chunk, ":")[1]
+		numbers := util2.ByteSplit(chunk, ":")[1]
 		tickets := getTicketNums(numbers)
 
 		lineRes = 0
 
-		util.NumIter[int](numbers, formatDrawnNumString, util.IntConversion, func(n int) {
+		util2.NumIter[int](numbers, formatDrawnNumString, util2.IntConversion, func(n int) {
 			if tickets.Contains(int8(n)) {
 				if lineRes == 0 {
 					lineRes = 1

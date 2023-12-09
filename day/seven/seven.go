@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"container/heap"
 	"fmt"
-	"github.com/atomragnar/advent-of-code-2023/pkg/util"
+	util2 "github.com/atomragnar/advent-of-code-2023/day/util"
 	"io"
 	"log"
 	"log/slog"
@@ -14,13 +14,13 @@ import (
 
 func Solution(isPartTwo bool) {
 	day := 7
-	var fn util.BufferProcessor
+	var fn util2.BufferProcessor
 	if isPartTwo {
 		fn = partTwo
 	} else {
 		fn = partOne
 	}
-	err := util.ProcessInput(util.DataPath(day), fn)
+	err := util2.ProcessInput(util2.DataPath(day), fn)
 	if err != nil {
 		return
 	}
@@ -190,18 +190,18 @@ func NewCardHand(s string) CardHand {
 	return c
 }
 
-func QueueItem(s []string) util.QueueItem {
+func QueueItem(s []string) util2.QueueItem {
 	c := NewCardHand(s[0])
 	points, err := strconv.Atoi(strings.TrimSpace(s[1]))
 	if err != nil {
 		log.Fatal("Error converting to num", err.Error())
 	}
 	c.points = points
-	q := util.QueueItem{Value: c}
+	q := util2.QueueItem{Value: c}
 	return q
 }
 
-func Prio(this, other util.QueueItem) bool {
+func Prio(this, other util2.QueueItem) bool {
 
 	if this.Value.(CardHand).s > other.Value.(CardHand).s {
 		return false
@@ -235,7 +235,7 @@ func partTwo(reader *bufio.Reader) error {
 func partOne(reader *bufio.Reader) error {
 	var result int
 	result = 0
-	pq := util.NewQueue(Prio)
+	pq := util2.NewQueue(Prio)
 	for {
 
 		chunk, err := reader.ReadBytes('\n')
@@ -258,10 +258,10 @@ func partOne(reader *bufio.Reader) error {
 	for len(pq.Q) != 0 {
 		i++
 		item = heap.Pop(pq)
-		fmt.Printf("Index: %d - Priority: %d\n", item.(util.QueueItem).Index, item.(util.QueueItem).Priority)
-		fmt.Printf("Cards: %s - Strenght: %d - Max: %v value: %v \n", item.(util.QueueItem).Value.(CardHand).c, item.(util.QueueItem).Value.(CardHand).s, item.(util.QueueItem).Value.(CardHand).max, item.(util.QueueItem).Value.(CardHand).v)
+		fmt.Printf("Index: %d - Priority: %d\n", item.(util2.QueueItem).Index, item.(util2.QueueItem).Priority)
+		fmt.Printf("Cards: %s - Strenght: %d - Max: %v value: %v \n", item.(util2.QueueItem).Value.(CardHand).c, item.(util2.QueueItem).Value.(CardHand).s, item.(util2.QueueItem).Value.(CardHand).max, item.(util2.QueueItem).Value.(CardHand).v)
 		fmt.Printf("i: %d\n", i)
-		p := i * item.(util.QueueItem).Value.(CardHand).points
+		p := i * item.(util2.QueueItem).Value.(CardHand).points
 		result += p
 		if item == nil {
 			break

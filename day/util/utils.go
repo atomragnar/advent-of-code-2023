@@ -1,10 +1,54 @@
 package util
 
 import (
+	"bufio"
+	"fmt"
 	"log"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
+
+func DataPath(day int) string {
+	return fmt.Sprintf(".\\data\\%d.txt", day)
+}
+
+type BufferProcessor func(*bufio.Reader) error
+
+func ProcessInput(inputPath string, fn BufferProcessor) error {
+	ip, err := filepath.Abs(inputPath)
+
+	if err != nil {
+		return err
+	}
+
+	inputPath = ip
+
+	inputFile, err := os.Open(inputPath)
+
+	if err != nil {
+		return err
+	}
+
+	defer func(inputFile *os.File) {
+		err := inputFile.Close()
+		if err != nil {
+
+		}
+	}(inputFile)
+
+	reader := bufio.NewReader(inputFile)
+
+	err = fn(reader)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
 
 func ContainsNum(s string) int64 {
 	switch {
@@ -64,7 +108,6 @@ func NumIter[T Num](s string, stringToNums func(s string) string, stringToT func
 		if i >= len(s) {
 			break
 		}
-
 		if IsDigit(s[i]) {
 			start = i
 			for {
@@ -104,13 +147,15 @@ func IntConversion(s string) (int, error) {
 	return strconv.Atoi(s)
 }
 
-func StringToInts(s string) []int {
-	ints := make([]int, 0)
-	stringf := func(z string) string {
-		return z
+func StringToInts(numStr string) []int {
+	var nums []int
+	for _, n := range strings.Fields(strings.TrimSpace(numStr)) {
+		i, _ := strconv.Atoi(n)
+		nums = append(nums, i)
 	}
-	NumIter[int](s, stringf, IntConversion, func(n int) {
-		ints = append(ints, n)
-	})
-	return ints
+	return nums
+}
+
+func SplitData(data []byte) []string {
+	return strings.Split(strings.ReplaceAll(string(data), "\r\n", "\n"), "\n")
 }
