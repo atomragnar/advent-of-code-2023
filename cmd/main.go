@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/atomragnar/advent-of-code-2023/day/nine"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"text/template"
 	"time"
@@ -12,6 +12,7 @@ import (
 	"github.com/atomragnar/advent-of-code-2023/day/eight"
 	"github.com/atomragnar/advent-of-code-2023/day/five"
 	"github.com/atomragnar/advent-of-code-2023/day/four"
+	"github.com/atomragnar/advent-of-code-2023/day/nine"
 	"github.com/atomragnar/advent-of-code-2023/day/one"
 	"github.com/atomragnar/advent-of-code-2023/day/seven"
 	"github.com/atomragnar/advent-of-code-2023/day/six"
@@ -34,7 +35,27 @@ var adventFuncs = map[int]adventFunc{
 }
 
 func main() {
-	dayNumber := time.Now().Day()
+	var dayNumber int
+	var part bool
+
+	if len(os.Args) < 2 {
+		dayNumber = time.Now().Day()
+		part = false
+	} else {
+
+		if n, err := strconv.Atoi(os.Args[1]); err == nil {
+			dayNumber = n
+		} else {
+			dayNumber = time.Now().Day()
+		}
+
+		if len(os.Args) < 3 {
+			part = false
+		} else {
+			part = os.Args[2] == "2"
+		}
+
+	}
 
 	if _, ok := adventFuncs[dayNumber]; !ok {
 		p := fmt.Sprintf(".\\data\\%d", dayNumber)
@@ -47,7 +68,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	adventFuncs[9](false)
+	adventFuncs[dayNumber](part)
 }
 
 const templateString = `package {{.PackageName}}
@@ -55,7 +76,7 @@ const templateString = `package {{.PackageName}}
 import (
 	"bufio"
 	"fmt" 
-  "github.com/atomragnar/advent-of-code-2023/pkg/util"
+  "github.com/atomragnar/advent-of-code-2023/day/util"
 	"io"
 	"log/slog"
 )
@@ -125,7 +146,7 @@ const template2String = `package {{.PackageName}}
 
 import (
 	"fmt"
-	"github.com/atomragnar/advent-of-code-2023/pkg/util"
+	"github.com/atomragnar/advent-of-code-2023/day/util"
 	"log/slog"
 	"os"
 )

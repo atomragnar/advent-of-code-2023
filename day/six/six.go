@@ -5,25 +5,35 @@ import (
 	"github.com/atomragnar/advent-of-code-2023/day/util"
 	"log"
 	"math"
+	"os"
 	"strconv"
 	"strings"
 )
 
 func Solution(isPartTwo bool) {
-	dataString := ``
-	var fn func(string)
+	day := 6
+	data := func() ([]byte, error) {
+		d, err := os.ReadFile(util.DataPath(day))
+		if err != nil {
+			return nil, err
+		}
+		return d, err
+	}
+	var fn func(func() ([]byte, error))
 	if isPartTwo {
 		fn = partTwo
 	} else {
 		fn = partOne
 	}
-	fn(dataString)
+	fn(data)
 }
 
-func partTwo(input string) {
+func partTwo(input func() ([]byte, error)) {
 	var result float64
-	// (t-x)x > r
-	d := strings.Split(input, "\n")
+
+	data, _ := input()
+
+	d := util.SplitData(data)
 	td := strings.TrimSpace(strings.Split(d[0], ":")[1])
 	rd := strings.TrimSpace(strings.Split(d[1], ":")[1])
 	var ts string
@@ -61,11 +71,13 @@ func partTwo(input string) {
 	fmt.Printf("Results is: %d\n", int(result))
 }
 
-func partOne(input string) {
+func partOne(input func() ([]byte, error)) {
 	var result int
 	result = 1
 
-	d := strings.Split(input, "\n")
+	data, _ := input()
+
+	d := util.SplitData(data)
 	td := strings.TrimSpace(strings.Split(d[0], ":")[1])
 	rd := strings.TrimSpace(strings.Split(d[1], ":")[1])
 	t := util.StringToInts(td)
