@@ -34,10 +34,19 @@ var adventFuncs = map[int]adventFunc{
 }
 
 func main() {
-	//newDay := true
-	//if newDay {
-	//	addDay(2)
-	//}
+	dayNumber := time.Now().Day()
+
+	if _, ok := adventFuncs[dayNumber]; !ok {
+		p := fmt.Sprintf(".\\data\\%d", dayNumber)
+		if _, err := os.Stat(p); err == nil {
+			addDay(2)
+		} else {
+			fmt.Printf("Add day %d to func map", dayNumber)
+		}
+
+		os.Exit(0)
+	}
+
 	adventFuncs[9](false)
 }
 
